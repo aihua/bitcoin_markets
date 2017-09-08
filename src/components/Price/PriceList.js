@@ -1,19 +1,25 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import PriceItem from './PriceItem'
 
 class PriceList extends Component {
   static navigationOptions = {
     title: 'Welcome'
   }
+  renderItem = (item) => {
+    return (
+      <View style={{paddingBottom: 15}}>
+        <PriceItem />
+      </View>
+    )
+  }
 
   render () {
     return (
-      <View>
-        <PriceItem />
-        <PriceItem />
-        <PriceItem />
-      </View>
+      <FlatList
+        data={[{key: 1}, {key: 2}, {key: 3}, {key: 4}, {key: 5}]}
+        renderItem={this.renderItem}
+      />
     )
   }
 }
