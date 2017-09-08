@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
+import exchangeReducer from './exchange'
 
 export default combineReducers({
-  foo: () => []
+  exchange: exchangeReducer
 })

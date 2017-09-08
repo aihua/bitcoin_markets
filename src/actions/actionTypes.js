@@ -1,0 +1,1 @@
+export const LOAD_EXCHANGE_DATA = 'LOAD_EXCHANGE_DATA'
