@@ -1,0 +1,3 @@
+rootProject.name = 'bitcoin_price'
+
+include ':app'
