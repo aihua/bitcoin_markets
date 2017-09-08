@@ -20,28 +20,30 @@ const styles = {
     paddingTop: 14,
     fontSize: 20
   },
-  lastUpdate: {
+  lastUpdateInfo: {
 
   }
 }
-
-const PriceItem = () => {
+// can't be props otherwise liner will start bitching
+// about PropTypes.
+const PriceItem = (properties) => {
   const {
     exchange, exchangeName, exchangeAbbreviation,
-    priceTag, lastUpdate } = styles
+    priceTag, lastUpdateInfo} = styles
+  const { name, price, lastUpdate, abbr } = properties
 
   return (
     <Card>
       <CardSection style={exchange}>
-        <Text style={exchangeName}>Nome da exchange</Text>
-        <Text style={exchangeAbbreviation}>Sigla</Text>
+        <Text style={exchangeName}>{name}</Text>
+        <Text style={exchangeAbbreviation}>{abbr}</Text>
       </CardSection>
 
       <CardSection>
         <View style={{ flex: 4 }} />
-        <Text style={priceTag}>Price tag</Text>
+        <Text style={priceTag}>{`R$ ${price.toFixed(2).replace('.', ',')}`}</Text>
       </CardSection>
-      <Text style={lastUpdate}> Last update </Text>
+      <Text style={lastUpdateInfo}>{lastUpdate}</Text>
     </Card>
   )
 }

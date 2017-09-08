@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FlatList, View, Text } from 'react-native'
+import { FlatList, View, Text, NativeModules } from 'react-native'
 import { connect } from 'react-redux'
 import actions from '../../actions'
 import PriceItem from './PriceItem'
@@ -22,18 +22,27 @@ class PriceList extends Component {
 
   renderLastUpdateTime () {
     const {lastUpdate} = this.props
-    return <Text>{lastUpdate}</Text>
+    const locale = NativeModules.I18nManager.localeIdentifier.replace('_', '-')
+    const date = new Date(Date(lastUpdate))
+    const day = date.toLocaleDateString(locale).split('/')
+    const time = date.toLocaleTimeString(locale)
+    return <Text>{`Last updated at ${time} on ${day[0]}/${day[1]}`}</Text>
   }
 
   convertStateToData () {
     const { exchanges } = this.props
-    return Object.keys(exchanges).map(k => ({ key: k, ...exchanges[k] }))
+    const ret = Object.keys(exchanges).map(k => ({ key: k, ...exchanges[k] }))
+    console.log({ret})
+    return ret
   }
 
-  renderItem = (item) => {
+  renderItem = ({item}) => {
     return (
       <View style={{paddingBottom: 15}}>
-        <PriceItem />
+        <PriceItem
+          name={item.name} price={item.price}
+          lastUpdate={item.lastUpdate} abbr={item.key}
+        />
       </View>
     )
   }

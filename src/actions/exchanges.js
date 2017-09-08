@@ -1,5 +1,5 @@
 import { LOAD_EXCHANGE_DATA } from './actionTypes'
-import api from '../api'
+import * as api from '../api'
 
 export const loadExchangeData = () => (dispatch) =>
   api.ticker().then(
