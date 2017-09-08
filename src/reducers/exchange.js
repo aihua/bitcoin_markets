@@ -1,39 +1,41 @@
 import { LOAD_EXCHANGE_DATA } from '../actions/actionTypes'
 
 const initalState = {
-  priceList: [],
-  timeStamps: {
-    lastUpdate: 0,
-    byEchange: {}
-  },
+  lastUpdate: 0,
   exchanges: {
-    NEG: 'Negocie Coins',
-    MBT: 'Mercado Bitcoin',
-    LOC: 'LocalBitcoins',
-    FOX: 'FoxBit',
-    FLW: 'flowBTC',
-    B2U: 'BitcoinToYou',
-    ARN: 'Arena Bitcoin'
+    NEG: { name: 'Negocie Coins', price: 0, lastUpdate: 0 },
+    MBT: { name: 'Mercado Bitcoin', price: 0, lastUpdate: 0 },
+    LOC: { name: 'LocalBitcoins', price: 0, lastUpdate: 0 },
+    FOX: { name: 'FoxBit', price: 0, lastUpdate: 0 },
+    FLW: { name: 'flowBTC', price: 0, lastUpdate: 0 },
+    B2U: { name: 'BitcoinToYou', price: 0, lastUpdate: 0 },
+    ARN: { name: 'Arena Bitcoin', price: 0, lastUpdate: 0 }
   }
 }
 
 // parses remote api raw response to state format
-const _priceList = (state, data) =>
-  Object.keys(state.exchanges).map(ex => ({[ex]: data['ticker_1h']['exchanges'][ex]['vwap']}))
-
-const _lastUdpate = (state, data) =>
-  Object.keys(state.exchanges).map(ex => ({[ex]: data['timeStamp']['exchanges'][ex]}))
+const _updateExchanges = (state, data) => {
+  const nextExchanges = state.exchanges
+  Object.keys(state.exchanges).forEach(ex => {
+    if (!data['ticker_1h']['exchanges'][ex]) {
+      nextExchanges[ex].price = 0
+    } else {
+      nextExchanges[ex].price = data['ticker_1h']['exchanges'][ex]['vwap']
+      nextExchanges[ex].lastUpdate = data['timestamp']['exchanges'][ex]
+    }
+  })
+  return nextExchanges
+}
 
 export default (state = initalState, action) => {
+  console.log({action})
   switch (action.type) {
     case LOAD_EXCHANGE_DATA:
       return {
         ...state,
-        priceList: _priceList(state, action.payoad),
-        timeStamps: {
-          lastUpdate: action.payload['timestamp']['total'],
-          byExchange: _lastUdpate(state, action.paylaod)
-        }}
+        lastUpdate: action.payload.data['timestamp']['total'],
+        exchanges: _updateExchanges(state, action.payload.data)
+      }
     default:
       return state
   }
