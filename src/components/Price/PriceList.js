@@ -20,7 +20,7 @@ class PriceList extends Component {
   }
 
   static navigationOptions = {
-    title: 'Welcome'
+    title: 'Bitcoin Prices in Brazil'
   }
 
   componentWillMount () {
@@ -42,7 +42,11 @@ class PriceList extends Component {
     const date = new Date(Date(lastUpdate))
     const day = date.toLocaleDateString(locale).split('/')
     const time = date.toLocaleTimeString(locale)
-    return <Text>{`Last updated at ${time} on ${day[0]}/${day[1]}`}</Text>
+    return (
+      <Text style={{fontSize: 12, paddingLeft: 8, paddingBottom: 10}}>
+        {`Last updated at ${time} on ${day[0]}/${day[1]}`}
+      </Text>
+    )
   }
 
   convertStateToData () {
@@ -67,7 +71,7 @@ class PriceList extends Component {
     return (
       <View>
         <FlatList
-          ListHeaderComponent={this.renderLastUpdateTime()}
+          ListFooterComponent={this.renderLastUpdateTime()}
           data={this.convertStateToData()}
           renderItem={this.renderItem}
           onRefresh={this.onRefresh}

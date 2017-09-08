@@ -18,7 +18,8 @@ const styles = {
     alignSelf: 'flex-end',
     paddingRight: 14,
     paddingTop: 14,
-    fontSize: 20
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 }
 // can't be props otherwise liner will start bitching
