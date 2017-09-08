@@ -6,6 +6,13 @@ import actions from '../../actions'
 import PriceItem from './PriceItem'
 
 class PriceList extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      refreshing: false
+    }
+    this.onRefresh = this.onRefresh.bind(this)
+  }
   static propTypes = {
     exchanges: PropTypes.object,
     lastUpdate: PropTypes.number,
@@ -18,6 +25,15 @@ class PriceList extends Component {
 
   componentWillMount () {
     this.props.loadExchangeData()
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({refreshing: false})
+  }
+
+  onRefresh () {
+    this.setState({refreshing: true})
+    return this.props.loadExchangeData()
   }
 
   renderLastUpdateTime () {
@@ -50,10 +66,12 @@ class PriceList extends Component {
   render () {
     return (
       <View>
-        {this.renderLastUpdateTime()}
         <FlatList
+          ListHeaderComponent={this.renderLastUpdateTime()}
           data={this.convertStateToData()}
           renderItem={this.renderItem}
+          onRefresh={this.onRefresh}
+          refreshing={this.state.refreshing}
         />
       </View>
     )
