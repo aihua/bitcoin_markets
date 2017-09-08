@@ -1,10 +1,9 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import { StackNavigator } from 'react-navigation'
+import PriceList from './components/Price/PriceList'
 
-const App = () => (
-  <View>
-    <Text>Bitcoin!</Text>
-  </View>
-)
+const App = StackNavigator({
+  PriceList: { screen: PriceList }
+
+})
 
 export default App
