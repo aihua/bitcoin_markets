@@ -22,6 +22,7 @@ class PriceList extends Component {
 
   static navigationOptions = {
     title: 'Bitcoin Prices in Brazil'
+
   }
 
   componentWillMount () {
