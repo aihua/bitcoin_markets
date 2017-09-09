@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FlatList, View, Text, NativeModules } from 'react-native'
+import { FlatList, View, Text, NativeModules, ToastAndroid } from 'react-native'
 import { connect } from 'react-redux'
 import actions from '../../actions'
 import PriceItem from './PriceItem'
@@ -28,6 +28,9 @@ class PriceList extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    if (this.state.refreshing) {
+      ToastAndroid.show('Prices updated', ToastAndroid.SHORT)
+    }
     this.setState({refreshing: false})
   }
 
@@ -51,9 +54,7 @@ class PriceList extends Component {
 
   convertStateToData () {
     const { exchanges } = this.props
-    const ret = Object.keys(exchanges).map(k => ({ key: k, ...exchanges[k] }))
-    console.log({ret})
-    return ret
+    return Object.keys(exchanges).map(k => ({ key: k, ...exchanges[k] }))
   }
 
   renderItem = ({item}) => {
@@ -62,6 +63,8 @@ class PriceList extends Component {
         <PriceItem
           name={item.name} price={item.price}
           lastUpdate={item.lastUpdate} abbr={item.key}
+          high={item.high} low={item.low} vol={item.vol}
+          last={item.last}
         />
       </View>
     )

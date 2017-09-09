@@ -28,8 +28,7 @@ const PriceItem = (properties) => {
   const {
     exchange, exchangeName, exchangeAbbreviation,
     priceTag } = styles
-  const { name, price, abbr } = properties
-
+  const { name, price, abbr, low, high, last, vol } = properties
   return (
     <Card>
       <CardSection style={exchange}>
@@ -38,7 +37,14 @@ const PriceItem = (properties) => {
       </CardSection>
 
       <CardSection>
-        <View style={{ flex: 4 }} />
+        <View style={{ flex: 3 }} >
+          <Text>{`high: ${high}`}</Text>
+          <Text>{`low:  ${low}`}</Text>
+        </View>
+        <View style={{flex: 4}}>
+          <Text>{`vol:  ${vol}`}</Text>
+          <Text>{`last: ${last}`}</Text>
+        </View>
         <Text style={priceTag}>{`R$ ${price.toFixed(2).replace('.', ',')}`}</Text>
       </CardSection>
     </Card>
