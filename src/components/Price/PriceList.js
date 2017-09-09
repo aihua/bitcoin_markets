@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FlatList, View, Text, NativeModules, ToastAndroid } from 'react-native'
+import { FlatList, View, Text, Image, TouchableHighlight,
+  NativeModules, ToastAndroid } from 'react-native'
 import { connect } from 'react-redux'
 import actions from '../../actions'
 import theme from '../../theme'
@@ -13,19 +14,41 @@ class PriceList extends Component {
       refreshing: false
     }
     this.onRefresh = this.onRefresh.bind(this)
+    this.onInfoPress = this.onInfoPress.bind(this)
   }
   static propTypes = {
     exchanges: PropTypes.object,
     lastUpdate: PropTypes.number,
     error: PropTypes.string,
-    loadExchangeData: PropTypes.func
+    loadExchangeData: PropTypes.func,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func
+    })
   }
 
-  static navigationOptions = {
-    title: 'Bitcoin Prices in Brazil'
+  static navigationOptions = ({navigation}) => ({
+    title: 'Bitcoin Prices in Brazil',
+    headerStyle: { backgroundColor: theme.primary.default },
+    headerTitleStyle: { color: theme.primary.text, fontWeight: 'normal' },
+    headerRight: (
+      <View style={{ paddingRight: 30 }}>
+        <TouchableHighlight
+          onPress={() => navigation.navigate('Info')}
+        >
+          <Image
+            source={require('../../assets/question_mark_icon.png')}
+            style={{height: 24, width: 24}}
+          />
+        </TouchableHighlight>
+      </View>
+    )
+  })
 
+  onInfoPress () {
+    console.log('on press')
+    console.log(this.props.navigation)
+    this.props.navigation.navigate('Info')
   }
-
   componentWillMount () {
     this.props.loadExchangeData()
   }
