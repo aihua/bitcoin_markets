@@ -16,6 +16,7 @@ class PriceList extends Component {
   static propTypes = {
     exchanges: PropTypes.object,
     lastUpdate: PropTypes.number,
+    error: PropTypes.string,
     loadExchangeData: PropTypes.func
   }
 
@@ -30,6 +31,8 @@ class PriceList extends Component {
   componentWillReceiveProps (nextProps) {
     if (this.state.refreshing) {
       ToastAndroid.show('Prices updated', ToastAndroid.SHORT)
+    } else if (nextProps.error) {
+      ToastAndroid.show(JSON.stringify(nextProps.error), ToastAndroid.LONG)
     }
     this.setState({refreshing: false})
   }
@@ -88,7 +91,8 @@ class PriceList extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     exchanges: state.exchange.exchanges,
-    lastUpdate: state.exchange.lastUpdate
+    lastUpdate: state.exchange.lastUpdate,
+    error: state.exchange.error
   }
 }
 export default connect(mapStateToProps, actions)(PriceList)

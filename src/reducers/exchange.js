@@ -10,7 +10,8 @@ const initalState = {
     FLW: { name: 'flowBTC', price: 0, low: 0, high: 0, last: 0, vol: 0 },
     B2U: { name: 'BitcoinToYou', price: 0, low: 0, high: 0, last: 0, vol: 0 },
     ARN: { name: 'Arena Bitcoin', price: 0, low: 0, high: 0, last: 0, vol: 0 }
-  }
+  },
+  error: null
 }
 
 // parses remote api raw response to state format
@@ -36,7 +37,8 @@ export default (state = initalState, action) => {
       return {
         ...state,
         lastUpdate: action.payload.data['timestamp']['total'],
-        exchanges: _updateExchanges(state, action.payload.data)
+        exchanges: _updateExchanges(state, action.payload.data),
+        error: action.payload.error
       }
     default:
       return state
