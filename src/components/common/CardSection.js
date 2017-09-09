@@ -15,12 +15,13 @@ const styles = {
 }
 
 const CardSection = (props) => (
-  <View style={styles.constainerStyle}>
+  <View style={[styles.constainerStyle, props.style]}>
     {props.children}
   </View>
 )
 
 CardSection.propTypes = {
+  style: PropTypes.object,
   children: PropTypes.any
 }
 export default CardSection

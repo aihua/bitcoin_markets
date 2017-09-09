@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { FlatList, View, Text, NativeModules, ToastAndroid } from 'react-native'
 import { connect } from 'react-redux'
 import actions from '../../actions'
+import theme from '../../theme'
 import PriceItem from './PriceItem'
 
 class PriceList extends Component {
@@ -83,6 +84,7 @@ class PriceList extends Component {
           renderItem={this.renderItem}
           onRefresh={this.onRefresh}
           refreshing={this.state.refreshing}
+          style={{backgroundColor: '#E1E2E1'}}
         />
       </View>
     )
