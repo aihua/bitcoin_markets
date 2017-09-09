@@ -45,8 +45,6 @@ class PriceList extends Component {
   })
 
   onInfoPress () {
-    console.log('on press')
-    console.log(this.props.navigation)
     this.props.navigation.navigate('Info')
   }
   componentWillMount () {
